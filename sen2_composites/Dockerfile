@@ -24,4 +24,4 @@ RUN apt-get update \
 RUN pip3 install numpy
 
 # Run ndvi.py when the container launches
-ENTRYPOINT ["python", "sen2_composites"]
+ENTRYPOINT ["python", "sen2_composites.py"]

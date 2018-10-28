@@ -65,6 +65,8 @@ def create_composites(imgfolder, Level = '2A'):
 
 
 if __name__ == "__main__":
-    create_composites(argv[1],argv[2])
+    imgfolder = os.environ['imgfolder']
+    Level = '1C'
+    create_composites(imgfolder, Level)
 
 
