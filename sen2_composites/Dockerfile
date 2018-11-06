@@ -4,24 +4,32 @@
 #
 # http://www.apache.org/licenses/LICENSE-2.0
 
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 MAINTAINER Sebastian Holtkamp <Sebastian.Holtkamp@wwu.de>
 
-# Make workspace and copy all files of current directory into it 
-RUN mkdir -p /workspace
-WORKDIR /workspace
-COPY . /workspace 
-
-# Install dependencies of ndvi.py
+# Install dependencies 
 RUN apt-get update \
     && apt-get install -qqy --no-install-recommends \
 		python-gdal \
         python3-pip \
+        wget \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Install numpy for ndvi.py 
+# Install numpy 
 RUN pip3 install numpy
+
+# Install Sen2Cor
+ENV Sen2Cor_VERSION Sen2Cor-02.05.05-Linux64
+RUN wget http://step.esa.int/thirdparties/sen2cor/2.5.5/$Sen2Cor_VERSION.run \
+    && chmod +x $Sen2Cor_VERSION.run \
+    && ./$Sen2Cor_VERSION.run \
+    && rm $Sen2Cor_VERSION.run
+    
+# Make workspace and copy all files of current directory into it 
+RUN mkdir -p /workspace
+WORKDIR /workspace
+COPY . /workspace 
 
 # Run ndvi.py when the container launches
 ENTRYPOINT ["python", "sen2_composites.py"]
