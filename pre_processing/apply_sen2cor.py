@@ -25,4 +25,5 @@ def run_correction(imgfolder):
 
 
 if __name__ == "__main__":
-    run_correction(argv[1])
+    imgfolder = os.environ['imgfolder']
+    run_correction(imgfolder)

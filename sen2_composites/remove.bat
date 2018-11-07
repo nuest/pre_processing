@@ -1,1 +1,0 @@
-docker rm comp_container
