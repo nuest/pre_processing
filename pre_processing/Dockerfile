@@ -19,20 +19,20 @@ RUN apt-get update \
 # Install numpy 
 RUN pip3 install numpy
 
-# Install Sen2Cor
-ENV Sen2Cor_VERSION Sen2Cor-02.05.05-Linux64
-RUN wget http://step.esa.int/thirdparties/sen2cor/2.5.5/$Sen2Cor_VERSION.run \
-    && pwd \
-    && chmod +x $Sen2Cor_VERSION.run \
-    && ./$Sen2Cor_VERSION.run \
-    && rm $Sen2Cor_VERSION.run
-    
-ENV PATH "$PATH:${Sen2Cor_VERSION}"
-
 # Make workspace and copy all files of current directory into it 
 RUN mkdir -p /workspace
 WORKDIR /workspace
 COPY . /workspace 
+
+# Install Sen2Cor
+ENV Sen2Cor_VERSION Sen2Cor-02.05.05-Linux64
+RUN mkdir /sen2cor
+RUN wget http://step.esa.int/thirdparties/sen2cor/2.5.5/$Sen2Cor_VERSION.run \
+    && chmod +x ./$Sen2Cor_VERSION.run \
+    && ./$Sen2Cor_VERSION.run \
+    && rm ./$Sen2Cor_VERSION.run
+    
+ENV PATH "${PATH}:/workspace/Sen2Cor-02.05.05-Linux64/bin/L2A_Process"
 
 # Run sen2_composites.py when the container launches
 ENTRYPOINT ["python", "apply_sen2cor.py"]
