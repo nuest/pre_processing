@@ -1,3 +1,3 @@
-docker rm comp_container
-docker rm apply_container
-pause
+docker rm -f comp_container
+docker rm -f apply_container
+
