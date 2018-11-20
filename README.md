@@ -28,4 +28,4 @@ This container requires a specific folder structure to work:
 ```          
  
 Sentinel-2 data can be aquired at [ESA-Hub](https://scihub.copernicus.eu/dhus/#/home). <br>
-Data should look similar to this [example](https://scihub.copernicus.eu/dhus/odata/v1/Products('eff34131-ccbf-4c5e-a3d6-7caa320445d8')/$value)       
+Direct download-link to example data: [example](https://scihub.copernicus.eu/dhus/odata/v1/Products('eff34131-ccbf-4c5e-a3d6-7caa320445d8')/$value)       
