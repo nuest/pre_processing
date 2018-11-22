@@ -20,21 +20,25 @@ RUN apt-get update \
 # Install numpy 
 RUN pip install numpy
 
+# Install Sen2Cor, instructions from http://step.esa.int/thirdparties/sen2cor/2.5.5/docs/S2-PDGS-MPC-L2A-SRN-V2.5.5.pdf
+ENV Sen2Cor_VERSION Sen2Cor-02.05.05-Linux64
+RUN mkdir /sen2cor
+WORKDIR /sen2cor
+RUN wget http://step.esa.int/thirdparties/sen2cor/2.5.5/$Sen2Cor_VERSION.run \
+    && chmod +x ./$Sen2Cor_VERSION.run \
+    && ./$Sen2Cor_VERSION.run
+    #&& rm ./$Sen2Cor_VERSION.run
+# output:
+# You can call L2A processor with '/sen2cor/Sen2Cor-02.05.05-Linux64/bin/L2A_Process'
+# Default configuration file is '/root/sen2cor/2.5/cfg/L2A_GIPP.xml'
+
+ENV PATH "$PATH:/usr/lib/python2.7"  
+ENV PATH "$PATH:/sen2cor/Sen2Cor-02.05.05-Linux64/bin"
+
 # Make workspace and copy all files of current directory into it 
-RUN mkdir -p /workspace
 WORKDIR /workspace
 COPY . /workspace 
 
-# Install Sen2Cor
-ENV Sen2Cor_VERSION Sen2Cor-02.05.05-Linux64
-RUN mkdir /sen2cor
-RUN wget http://step.esa.int/thirdparties/sen2cor/2.5.5/$Sen2Cor_VERSION.run \
-    && chmod +x ./$Sen2Cor_VERSION.run \
-    && ./$Sen2Cor_VERSION.run \
-    && rm ./$Sen2Cor_VERSION.run
-
-ENV PATH "${PATH}:/usr/lib/python2.7"  
-ENV PATH "${PATH}:/workspace/Sen2Cor-02.05.05-Linux64/"
-
 # Run sen2_composites.py when the container launches
-ENTRYPOINT ["python", "apply_sen2cor.py"]
+ENTRYPOINT ["python"]
+CMD ["apply_sen2cor.py"]
