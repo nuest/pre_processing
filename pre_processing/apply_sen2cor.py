@@ -12,6 +12,7 @@ import os
 
 def run_correction(imgfolder):
     # list level 1C files in folder
+    print(str(os.listdir(imgfolder)))
     L1Cfiles = [s for s in os.listdir(imgfolder) if "L1C" in s]
     print(str(len(L1Cfiles)) + ' level 1C file(s) found. Performing atmospheric correction.')
 
@@ -26,4 +27,5 @@ def run_correction(imgfolder):
 
 if __name__ == "__main__":
     imgfolder = os.environ['imgfolder']
+    print('Running with input data fromL at %s' % (str(imgfolder)))
     run_correction(imgfolder)

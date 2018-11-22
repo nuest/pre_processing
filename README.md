@@ -3,13 +3,34 @@
 ## Aim:
 This container aims to automate the pre-processing of Sentinel-2 data from L1C to L2A.
 
+It uses sen2cor, see http://step.esa.int/main/third-party-plugins-2/sen2cor/.
+
 ## Usage:
 To use this container run the script apply_sen2cor.bat.
+
+```bash
+cd pre_processing
+docker build --tag monconfsat_pre .
+cd ..
+docker run --rm -v ${PWD}/data:/workspace/data -e imgfolder=/workspace/data monconfsat_pre
+```
+
+Debug within container:
+
+```bash
+docker run --rm -it -v ${PWD}/data:/workspace/data -e imgfolder=/workspace/data --entrypoint=/bin/bash monconfsat_pre
+```
+
+`LA2_Process` documentation:
+
+```bash
+docker run --rm -it --entrypoint=/bin/bash monconfsat_pre L2A_Process --help
+```
 
 ## Required structure:
 This container requires a specific folder structure to work:
 
-```bash
+```
 .
 |---data
 |   |---S2B_MSIL1C...
